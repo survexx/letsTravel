@@ -18,6 +18,8 @@ const checkRole = require("./middlewares/role");
 getConnection();
 app.use(cookieParse());
 
+app.set("trust proxy", 1); 
+
 // ejs engine
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -25,6 +27,7 @@ app.set("view engine", "ejs");
 // path setup
 app.set("views", path.resolve("./views"));
 app.use(express.static(path.join(__dirname, "/public")));
+
 
 // middlewares
 app.use(express.json());
