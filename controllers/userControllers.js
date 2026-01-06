@@ -6,6 +6,7 @@ const {jwtTokenGen} = require("../utils/token");
 // user login
 const handleUserLogin = async (req, res) =>{
     const {email, password} = req.body;
+    console.log("PLAIN PASSWORD:", password);
     if(!email || !password) {
         return res.redirect("/login?error=fill_your_details");
     }
@@ -14,9 +15,9 @@ const handleUserLogin = async (req, res) =>{
     if(!data){
         return res.redirect("/login?error=user_not_found");
     }
-
+    console.log("Data:", data);
     const isPassMatch = await bcrypt.compare(password, data.password);
-
+    console.log("COMPARE RESULT:", isPassMatch);
     if(!isPassMatch){
         return res.redirect("/login?error=invalid_credentials");
     }
