@@ -74,11 +74,11 @@ const handleUserCreation = async (req, res)=>{
 
     // user creation
     // profile pic url will be generated using cloudinary and stored accordingly
-    const hashPass = await bcrypt.hash(password, 10);
+    // const hashPass = await bcrypt.hash(password, 10);
     const data = {
         name: name.trim(),
         email: email.trim(),
-        password :  hashPass  
+        password: password.trim()
     }
     await User.create(data);
     return res.redirect("/login");
