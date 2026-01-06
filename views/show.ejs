@@ -12,29 +12,40 @@
             </p>
         </div>
         <!-- IMAGE -->
-        <% if(hotelData.images.length > 1) {%>
-            <div class="image-grid">
-                <div class="main-image">
-                    <img
-                    src="<%= hotelData.images[0]?.url || '/default/hotel.jpg' %>"
-                    alt="Hotel Image"
-                    >
-                </div>
-                <div class="side-images">
-                    <% hotelData.images.slice(1, 5).forEach(img => { %>
-                    <img
-                        src="<%= img.url %>"
-                        alt="Hotel Image"
-                    >
+        <% if (hotelData.images && hotelData.images.length > 1) { %>
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner image-wrapper">
+
+                    <% hotelData.images.slice(0, 5).forEach((img, index) => { %>
+                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                            <img 
+                                src="<%= img.url %>" 
+                                alt="Hotel Image"
+                            >
+                        </div>
                     <% }) %>
+
                 </div>
-                
+
+                <button class="carousel-control-prev" type="button"
+                    data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+
+                <button class="carousel-control-next" type="button"
+                    data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
             </div>
-        <% } else {%>
+        <% } else { %>
             <div class="image-wrapper">
-                <img src="<%= hotelData.images[0].url %>" alt="Hotel Image">
+                <img 
+                    src="<%= hotelData.images[0].url %>" 
+                    alt="Hotel Image"
+                >
             </div>
         <% } %>
+
 
 
         <!-- CONTENT -->
@@ -98,7 +109,7 @@
     
       L.marker([lat, lng])
         .addTo(map)
-        .bindPopup("Sea Breeze Resort")
+        .bindPopup(hotelData)
         .openPopup();
     </script>
 </body>
