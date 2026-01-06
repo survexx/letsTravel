@@ -1,0 +1,104 @@
+<% layout("./layouts/boilerplate.ejs") %>
+<body>
+    <div class="container">
+        <!-- TITLE -->
+        <div>
+            <h1 class="title"><%= hotelData.title %></h1>
+            <p class="location">
+                <%= hotelData.location.address %>, 
+                <%= hotelData.location.city %>, 
+                <%= hotelData.location.state %>, 
+                <%= hotelData.location.country %>
+            </p>
+        </div>
+        <!-- IMAGE -->
+        <% if(hotelData.images.length > 1) {%>
+            <div class="image-grid">
+                <div class="main-image">
+                    <img
+                    src="<%= hotelData.images[0]?.url || '/default/hotel.jpg' %>"
+                    alt="Hotel Image"
+                    >
+                </div>
+                <div class="side-images">
+                    <% hotelData.images.slice(1, 5).forEach(img => { %>
+                    <img
+                        src="<%= img.url %>"
+                        alt="Hotel Image"
+                    >
+                    <% }) %>
+                </div>
+                
+            </div>
+        <% } else {%>
+            <div class="image-wrapper">
+                <img src="<%= hotelData.images[0].url %>" alt="Hotel Image">
+            </div>
+        <% } %>
+
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- LEFT -->
+            <div>
+                <h2 class="section-title">About this place</h2>
+                <p class="description"><%= hotelData.description %></p>
+
+                <h2 class="section-title">What this place offers</h2>
+                <div class="amenities">
+                    <% hotelData.amenities.forEach(am => { %>
+                        <div class="amenity">✔ <%= am %></div>
+                    <% }) %>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="card">
+                <div class="price">
+                    ₹<%= hotelData.pricePerNight %> <span>/ night</span>
+                </div>
+
+                <div class="info">
+                    Max Guests: <strong><%= hotelData.maxGuests %></strong>
+                </div>
+
+                <% if (user && user.role === "USER") { %>
+                    <button class="reserve-btn">Reserve</button>
+
+                <% } else if (user && user.role === "HOST" && user.id === hotelData.host.toString()) { %>
+                   <a href="/host/listing/<%= hotelData._id %>/edit"><button class="edit-btn">Edit</button></a><br>
+                    <button class="delete-btn">Delete</button>
+                    
+                <% } else { %>
+                    <a href="/login" class="reserve-btn disabled">Login to Reserve</a>
+                    <div class="login-note">You must be logged in to book</div>
+                <% } %>
+
+            </div>
+        </div>
+        <% if(!user || user.role !== "HOST") { %>
+            <div style=" margin-top: 2rem; display: flex; flex-direction: column; align-items: flex-start; gap: 20px;">
+                <button type="button" class="btn btn-light"><a href="https://www.google.com/maps?q=15.2993,74.1240" target="_blank" >View on Google Maps</a></button>
+                <div id="map" style="height: 400px; width: 100%; border-radius: 10px;"></div>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      const lat = 15.2993;   // hotel latitude
+      const lng = 74.1240;   // hotel longitude
+    
+      const map = L.map("map").setView([lat, lng], 13);
+    
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+    
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup("Sea Breeze Resort")
+        .openPopup();
+    </script>
+</body>

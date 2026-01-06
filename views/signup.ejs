@@ -1,0 +1,74 @@
+<% layout("./layouts/boilerplate.ejs") %>
+<body>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+        <div class="card shadow-lg border-0 rounded-4" style="max-width: 450px; width: 100%;">
+            
+            <div class="card-body p-4 p-md-5">
+                <h3 class="text-center fw-bold mb-2">Create your account</h3>
+                <p class="text-center text-muted mb-4">
+                    Join and start exploring amazing stays
+                </p>
+
+                <% if (error) { %>
+                    <div class="alert alert-danger text-center py-2">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <!-- Signup Form -->
+                <form action="/user/signup" method="post">
+
+                    <div class="form-floating mb-3">
+                        <input
+                            type="text"
+                            class="form-control rounded-3"
+                            id="name"
+                            name="name"
+                            placeholder="Your Name"
+                            required
+                        >
+                        <label for="name">Full Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input
+                            type="email"
+                            class="form-control rounded-3"
+                            id="email"
+                            name="email"
+                            placeholder="name@example.com"
+                            required
+                        >
+                        <label for="email">Email address</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input
+                            type="password"
+                            class="form-control rounded-3"
+                            id="password"
+                            name="password"
+                            placeholder="Password"
+                            required
+                        >
+                        <label for="password">Password</label>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger w-100 py-2 rounded-3 fw-semibold">
+                        Sign up
+                    </button>
+                </form>
+
+                <!-- Footer -->
+                <div class="text-center mt-4">
+                    <small class="text-muted">
+                        Already have an account?
+                        <a href="/login" class="text-danger fw-semibold">Login</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

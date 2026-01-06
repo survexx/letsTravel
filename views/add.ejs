@@ -1,0 +1,168 @@
+<% layout("./layouts/boilerplate.ejs") %>
+<body>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card shadow-lg border-0 rounded-4" style="max-width: 720px; width: 100%;">
+            
+            <!-- Card Header -->
+            <div class="card-body p-4 p-md-5">
+                <h3 class="text-center fw-bold mb-3">Add Your Property</h3>
+                <% if (error) { %>
+                    <div class="alert alert-danger text-center py-2">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <!-- Login Form -->
+                <form action="/host/properties/new" method="post" enctype="multipart/form-data">
+                    
+                    <div class="form-floating mb-3">
+                        <input 
+                            type="text" 
+                            class="form-control rounded-3" 
+                            id="title" 
+                            name="title" 
+                            placeholder="Add your property name"
+                            required
+                        >
+                        <label for="title">Title</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <textarea
+                            type="text" 
+                            class="form-control rounded-3" 
+                            id="description" 
+                            name="description" 
+                            placeholder="description"
+                            required
+                        ></textarea>
+                        <label for="description">Description</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input
+                            type="number" 
+                            class="form-control rounded-3" 
+                            id="pricePerNight" 
+                            name="pricePerNight" 
+                            placeholder="Enter the price per night"
+                            required
+                        >
+                        <label for="pricePerNight">Price/Night</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input
+                            type="text" 
+                            class="form-control rounded-3" 
+                            id="address" 
+                            name="address" 
+                            placeholder="Enter address of your property"
+                            required
+                        >
+                        <label for="address">Address</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input
+                            type="text" 
+                            class="form-control rounded-3" 
+                            id="city" 
+                            name="city" 
+                            placeholder="city"
+                            required
+                        >
+                        <label for="city">City</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input
+                            type="text" 
+                            class="form-control rounded-3" 
+                            id="state" 
+                            name="state" 
+                            placeholder="state"
+                            required
+                        >
+                        <label for="state">State</label>
+                    </div>
+
+                     <div class="form-floating mb-4">
+                        <input
+                            type="text" 
+                            class="form-control rounded-3" 
+                            id="country" 
+                            name="country" 
+                            placeholder="country"
+                            required
+                        >
+                        <label for="country">Country</label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input
+                            type="number" 
+                            class="form-control rounded-3" 
+                            id="maxGuests" 
+                            name="maxGuests" 
+                            placeholder="maxGuests"
+                            required
+                        >
+                        <label for="maxGuests">Maximum Guests</label>
+                    </div>
+
+                    <div class="dropdown mb-4">
+                        <button 
+                            class="form-control text-start rounded-3 dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            Select Amenities
+                        </button>
+
+                        <ul class="dropdown-menu w-100 p-3">
+                            <li>
+                                <input type="checkbox" name="amenities[]" value="wifi"> Wi-Fi
+                            </li>
+                            <li>
+                                <input type="checkbox" name="amenities[]" value="parking"> Parking
+                            </li>
+                            <li>
+                                <input type="checkbox" name="amenities[]" value="pool"> Swimming Pool
+                            </li>
+                            <li>
+                                <input type="checkbox" name="amenities[]" value="ac"> Air Conditioning
+                            </li>
+                            <li>
+                                <input type="checkbox" name="amenities[]" value="tv"> TV
+                            </li>
+                            <li>
+                                <input type="checkbox" name="amenities[]" value="kitchen"> Kitchen
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input 
+                            type="file" 
+                            class="form-control rounded-3" 
+                            id="images" 
+                            name="images"
+                            accept="image/*" 
+                            multiple
+                            required
+                        >
+                        <label for="title">Property Images</label>
+                    </div>
+
+
+                    <button 
+                        type="submit" 
+                        class="btn btn-danger w-100 py-2 rounded-3 fw-semibold">
+                        Host Property
+                    </button>
+                </form>
+        </div>
+    </div>
+</body>
