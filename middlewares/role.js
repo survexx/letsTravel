@@ -1,5 +1,5 @@
 function checkRole(req, res, next){
-    console.log("User in checkRole:", req.user);
+    // console.log("User in checkRole:", req.user);
     if(!req.user){
         return res.redirect("/login");
     }

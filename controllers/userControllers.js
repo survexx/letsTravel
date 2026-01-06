@@ -1,12 +1,13 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const {jwtTokenGen} = require("../utils/token");
-
+const cloudinary = require("../utils/cloudinary");
+const upload = require("../middlewares/upload");
 
 // user login
 const handleUserLogin = async (req, res) =>{
     const {email, password} = req.body;
-    console.log("PLAIN PASSWORD:", password);
+    // console.log("PLAIN PASSWORD:", password);
     if(!email || !password) {
         return res.redirect("/login?error=fill_your_details");
     }
@@ -15,9 +16,9 @@ const handleUserLogin = async (req, res) =>{
     if(!data){
         return res.redirect("/login?error=user_not_found");
     }
-    console.log("Data:", data);
+    // console.log("Data:", data);
     const isPassMatch = await bcrypt.compare(password, data.password);
-    console.log("COMPARE RESULT:", isPassMatch);
+    // console.log("COMPARE RESULT:", isPassMatch);
     if(!isPassMatch){
         return res.redirect("/login?error=invalid_credentials");
     }
@@ -91,15 +92,25 @@ const handleUserLogout = (req, res) =>{
 }
 
 const handleUserUpdate = async (req, res) => {
-    const {name} = req.body;
-    const id = req.user.id;
-    console.log(req.file, name);
-    const file = `/uploads/${req.file.filename}`; 
-    await User.findByIdAndUpdate({_id: id}, {
-        name,
-        profileImg : file
-    });
-    return res.redirect("/user/profile");
+    try {
+        const {name} = req.body;
+        if (!name?.trim()) throw new Error("Name required");
+        const id = req.user.id;
+        let updateData = {name};
+
+        // cloudinary url
+        if(req.file){
+            const uploadResult = await cloudinary.uploader.upload(req.file.path);
+            updateData.profileImg =  uploadResult.secure_url;
+        }            
+        console.log(updateData);
+
+        await User.findByIdAndUpdate({_id: id}, updateData);
+        return res.redirect("/user/profile");
+    } catch (error) {
+        console.error(error);
+        return res.redirect("/user/profile?error=update_failed");
+    }
 }
 
 module.exports = {

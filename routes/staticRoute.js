@@ -4,7 +4,7 @@ const router = new express.Router();
 
 router.get("/", async (req, res) => {
     const data = await Hotel.find({}); 
-    console.log(req.user);
+    // console.log(req.user);
     return res.render("home", {
         data,
         user : req.user
@@ -37,7 +37,7 @@ router.get("/logout", (req, res) =>{
 router.get("/listing/:id", async (req, res) => {
     const hotelId = req.params.id;
     const hotelData = await Hotel.findOne({ _id: hotelId});
-    console.log(hotelData);
+    // console.log(hotelData);
     res.render("show", {
         hotelData,
         user: req.user

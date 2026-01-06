@@ -12,8 +12,10 @@ const User = require("../models/user");
 
 router.get("/profile",async (req, res) => {
     const user = await User.findById( {_id: req.user.id});
+    const error = req.query.error;
     return res.render("profile", {
-        user
+        user,
+        error
     });
 });
 router.post("/login", handleUserLogin);
